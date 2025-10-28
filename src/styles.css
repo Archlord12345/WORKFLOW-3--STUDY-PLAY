@@ -1,20 +1,25 @@
-:root{--bg:#f3f6fb;--panel:#ffffff;--muted:#94a3b8;--text:#0f172a;--primary:#6366f1;--shadow:0 10px 25px rgba(2,8,23,.06)}
+:root{--bg:#f3f6fb;--panel:#ffffff;--muted:#94a3b8;--text:#0f172a;--primary:#3b82f6;--primary-2:#8b5cf6;--accent:#f97316;--shadow:0 10px 25px rgba(2,8,23,.06)}
+.dark{--bg:#0b1220;--panel:#0f172a;--muted:#94a3b8;--text:#e2e8f0;--primary:#60a5fa;--primary-2:#a78bfa;--accent:#fb923c;--shadow:0 10px 25px rgba(0,0,0,.35)}
 *{box-sizing:border-box}
 html,body,#root{height:100%}
 body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#e7efff,transparent),radial-gradient(1200px 600px at 120% -20%,#e6eaff,transparent),var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;color:var(--text)}
+.dark body{background:var(--bg)}
 
-.app-root{display:flex;gap:24px;padding:24px}
-.sidebar{width:260px;background:var(--panel);border-radius:20px;padding:24px;box-shadow:var(--shadow)}
+.app-root{display:flex;gap:24px;padding:24px;position:relative}
+.sidebar{width:260px;background:var(--panel);border-radius:20px;padding:24px;box-shadow:var(--shadow);position:relative}
+.sidebar .close-drawer{display:none;position:absolute;top:10px;right:10px;border:0;background:#f1f5f9;border-radius:10px;width:32px;height:32px;cursor:pointer}
 .brand{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:24px}
 .logo{width:88px;height:auto}
-.brand-name{font-weight:800;letter-spacing:.5px}
+.brand-name{font-weight:800;letter-spacing:.5px;color:var(--primary)}
 .nav{display:flex;flex-direction:column;gap:16px}
 .nav-item{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border:0;border-radius:16px;background:#f6f8fc;color:#0f172a;cursor:pointer;text-align:left}
 .nav-item:hover{background:#eef2ff}
 .nav-icon{width:24px;display:inline-flex;justify-content:center}
 
 .main{flex:1;background:linear-gradient(180deg,#ffffff, #f7f8fc);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
-.header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;background:linear-gradient(90deg,#5b7cfa,#7d4cf9);color:#fff}
+.header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;background:linear-gradient(90deg,var(--primary),var(--primary-2));color:#fff;gap:12px}
+.burger{display:none;border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:10px;width:40px;height:40px;cursor:pointer}
+.theme{border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:10px;width:40px;height:40px;cursor:pointer}
 .search{display:flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:10px 16px;min-width:380px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .search-input{border:0;outline:0;width:100%;font-size:15px}
 .avatar{border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:999px;width:40px;height:40px;cursor:pointer}
@@ -32,7 +37,7 @@ body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#e7efff,transp
 
 .practice{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:24px}
 .pill{display:flex;align-items:center;gap:10px;background:var(--panel);border:0;border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);cursor:pointer}
-.pill-primary{background:linear-gradient(180deg,#6d7cff,#5b5cf1);color:#fff}
+.pill-primary{background:linear-gradient(180deg,var(--primary),var(--primary-2));color:#fff}
 .pill-icon{width:22px;display:inline-flex;justify-content:center}
 
 .progress-block{background:var(--panel);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
@@ -41,13 +46,23 @@ body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#e7efff,transp
 .stat{display:flex;align-items:center;gap:8px;color:#0f172a}
 .stat-icon{width:20px;display:inline-flex;justify-content:center}
 
+/* Desktop -> Tablet */
 @media (max-width: 1100px){
   .cards,.practice,.progress-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+/* Tablet -> Mobile */
 @media (max-width: 760px){
-  .app-root{flex-direction:column}
-  .sidebar{width:100%}
+  .app-root{flex-direction:row}
+  .sidebar{position:fixed;inset:0 auto 0 0;width:80%;max-width:300px;transform:translateX(-105%);transition:transform .25s ease;border-radius:0;height:100vh;z-index:30}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar .close-drawer{display:block}
+  .burger{display:inline-block}
+  .main{flex:1}
+  .search{min-width:0;flex:1}
   .cards,.practice,.progress-stats{grid-template-columns:1fr}
 }
+
+/* Overlay when drawer open */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.35);backdrop-filter:blur(2px);z-index:20}
 
 
